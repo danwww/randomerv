@@ -2,7 +2,6 @@ randomerv
 =========
 # randomserv
 Picks a random file out of a folder and serves it over HTTP
-TODO: Serve files other than images
 Configurable using config.txt
 | Option | Function|
 |-------:|:--------|
