@@ -3,7 +3,7 @@
 <h5>TODO: Serve files other than images</h5>  
 <p>Configurable using config.txt</p>
 | Option | Function|
-|-------:|--------:|
+|-------:|:--------|
 | *FileDir* | Files in this folder will be served | 
 | *StaticPath* | Static access to folder |
 | *RandPath* | Random file from folder |
