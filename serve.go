@@ -79,7 +79,6 @@ func LoadConfig() *Config {
 }
 
 // This function writes a requet from raw data
-// TODO: Handle more MIME types than image/...
 func random_file(w http.ResponseWriter, r *http.Request) {
 
 	// Load config before each request.
