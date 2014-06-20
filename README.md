@@ -1,8 +1,8 @@
-randomerv
+randomserv
 =========
-# randomserv
-Picks a random file out of a folder and serves it over HTTP
+Picks a random file out of a folder and serves it over HTTP  
 Configurable using config.txt
+
 | Option | Function|
 |-------:|:--------|
 | *FileDir* | Files in this folder will be served | 
