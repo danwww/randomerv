@@ -18,44 +18,15 @@ type Config struct {
     FileDir    string
     StaticPath string
     RandPath   string
-    ListenPort string
     ListenAddr string
+    ListenPort string
     Exts       []string
-}
-
-// Loads JSON Config file from config.txt
-func LoadConfig() (c Config) {
-    config_data, err := ioutil.ReadFile("config.txt")
-
-    // If config.txt doesn't exist, err will be something other than nil
-    // Let's create one
-    if err != nil {
-        print("Creating config file...\n")
-
-        // Default settings
-        c := Config{"images", "/image/", "/random", ":9090", "", []string{".jpg", ".jpeg"}}
-        config_json, err := json.MarshalIndent(c, "", "    ")
-        handle_err(err)
-        new_config, err := os.Create("config.txt")
-        _, e := new_config.Write(config_json)
-        handle_err(e)
-
-    // err = nil therefore config.txt exists. Let's load it
-    // TODO: Check for legal params in config.txt
-    } else {
-        print("Loading config file...\n")
-        a := &c
-        err = json.Unmarshal(config_data, a)
-        handle_err(err)
-    }
-
-    return
 }
 
 // Let's get this server running
 func main() {
 
-    // Let's get our config
+    // Let's call our config set
     set := LoadConfig()    
     print("Starting server...\n")
 
@@ -64,8 +35,38 @@ func main() {
 
     // Random file server handle
     http.HandleFunc(set.RandPath, random_file)
+
+    // Begin
     print("Server started. Listening on: " + set.ListenAddr + set.ListenPort + "\n")
     log.Fatal(http.ListenAndServe(set.ListenAddr + set.ListenPort, nil))
+}
+
+// Loads JSON Config file from config.txt
+func LoadConfig() *Config {
+    config_data, err := ioutil.ReadFile("config.txt")
+
+    // Load defaults first
+    c := &Config{"images", "/image/", "/random", "0.0.0.0", ":9090", []string{".jpg", ".jpeg"}}
+
+    // If config.txt doesn't exist, err will be something other than nil
+    // Let's create one
+    if err != nil {
+        print("Creating config file...\n")
+        config_json, err := json.MarshalIndent(c, "", "    ")
+        handle_err(err)
+        new_config, err := os.Create("config.txt")
+        _, e := new_config.Write(config_json)
+        handle_err(e)
+        new_config.Close()
+
+    // err = nil therefore config.txt exists. Let's load it
+    // TODO: Check for legal params in config.txt
+    } else {
+        print("Loading config file...\n")
+        err = json.Unmarshal(config_data, c)
+        handle_err(err)
+    }
+    return c
 }
 
 // This function writes a requet from raw data
